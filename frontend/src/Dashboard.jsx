@@ -9,12 +9,21 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-// Icons for the macro cards (you can pick others if you prefer)
-import { FaTint, FaDrumstickBite, FaFireAlt } from 'react-icons/fa';
-import { FaPlus, FaBars } from 'react-icons/fa';
+import {
+  FaPlus,
+  FaBars,
+  FaQrcode,
+  FaDrumstickBite,
+  FaFireAlt
+} from 'react-icons/fa';
+import { IoFastFoodOutline } from "react-icons/io5";
+import QRCodeScanner from './QRCodeScanner';
 import './Dashboard.css';
+import banner1 from "../images/banner1.jpg";
+import banner2 from "../images/banner2.jpg";
+import banner3 from "../images/banner3.jpg";
+import logo from "../images/NutriverseLogo.png";
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,7 +34,7 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  // ======= SIDEBAR TOGGLE FOR MOBILE =======
+  // Sidebar toggle state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
@@ -34,7 +43,7 @@ const Dashboard = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Close sidebar when clicking outside on mobile
+  // Close sidebar on mobile when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -52,15 +61,10 @@ const Dashboard = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSidebarOpen]);
 
-  // ======= CAROUSEL STATE =======
-  const carouselImages = [
-    'https://via.placeholder.com/600x200?text=Slide+1',
-    'https://via.placeholder.com/600x200?text=Slide+2',
-    'https://via.placeholder.com/600x200?text=Slide+3'
-  ];
+  // Carousel State
+  const carouselImages = [banner1, banner2, banner3];
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto change slide every 3 seconds
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prevSlide) =>
@@ -70,7 +74,7 @@ const Dashboard = () => {
     return () => clearInterval(slideInterval);
   }, [carouselImages.length]);
 
-  // ======= CHART DATA =======
+  // Chart Data
   const chartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -111,14 +115,16 @@ const Dashboard = () => {
     }
   };
 
+  // QR Code Popup State (initially open)
+  const [qrOpen, setQrOpen] = useState(true);
+
   return (
     <div className="dashboard-container">
-      {/* ===== Left Sidebar ===== */}
+      {/* Left Sidebar */}
       <div ref={sidebarRef} className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          {/* Replace with your actual logo image */}
           <img
-            src="https://via.placeholder.com/120x40?text=LOGO"
+            src={logo}
             alt="Logo"
             className="logo"
           />
@@ -132,12 +138,10 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      {/* ===== Main Content ===== */}
+      {/* Main Content */}
       <div className="main-content">
-        {/* Top Navbar */}
         <div className="top-navbar">
           <div className="left-section">
-            {/* Hamburger for mobile */}
             <button ref={hamburgerRef} className="hamburger" onClick={handleToggleSidebar}>
               <FaBars />
             </button>
@@ -148,13 +152,12 @@ const Dashboard = () => {
               <h2>Welcome Back</h2>
             </div>
           </div>
-          <div className="user-profile">
-            {/* User avatar placeholder */}
-            <img src="https://via.placeholder.com/40" alt="User" />
-          </div>
+
+          <button className="qr-button" onClick={() => setQrOpen(true)}>
+            <FaQrcode />
+          </button>
         </div>
 
-        {/* Banner Carousel */}
         <div className="banner">
           <div className="carousel">
             <img
@@ -174,32 +177,43 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Macro Cards (Styled to match your snippet) */}
+        {/* Macro Cards with Icons Aligned to the Right */}
         <div className="macro-cards">
           <div className="macro-card carbs">
-            <div className="card-content">
-              <FaTint className="macro-icon" />
-              <span>Carbs</span>
+            <div className="card-details">
+              <div className="card-text">
+                <span className="card-label">Carbs</span>
+                <p className="card-value">270g</p>
+              </div>
+              <div className="card-icon">
+                <IoFastFoodOutline />
+              </div>
             </div>
-            <p>270g</p>
           </div>
           <div className="macro-card protein">
-            <div className="card-content">
-              <FaDrumstickBite className="macro-icon" />
-              <span>Protein</span>
+            <div className="card-details">
+              <div className="card-text">
+                <span className="card-label">Protein</span>
+                <p className="card-value">97g</p>
+              </div>
+              <div className="card-icon">
+                <FaDrumstickBite />
+              </div>
             </div>
-            <p>97g</p>
           </div>
           <div className="macro-card fats">
-            <div className="card-content">
-              <FaFireAlt className="macro-icon" />
-              <span>Fats</span>
+            <div className="card-details">
+              <div className="card-text">
+                <span className="card-label">Fats</span>
+                <p className="card-value">150g</p>
+              </div>
+              <div className="card-icon">
+                <FaFireAlt />
+              </div>
             </div>
-            <p>150g</p>
           </div>
         </div>
 
-        {/* Bottom Section: Nutrients + Monthly Progress */}
         <div className="bottom-section">
           <div className="nutrients-consumed">
             <h3>Nutrients Consumed</h3>
@@ -218,41 +232,44 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
+
+        <div className="meals-consumed-container">
+          <div className="meals-header">
+            <h3>Meals Consumed</h3>
+            <button className="add-meal-button">+ ADD</button>
+          </div>
+
+          <div className="meal-card">
+            <div className="meal-info">
+              <h4>Monday</h4>
+              <p>Bread Jam</p>
+              <span className="meal-quantity">6 Pieces</span>
+            </div>
+            <div className="meal-time">At 08:00am</div>
+          </div>
+
+          <div className="meal-card">
+            <div className="meal-info">
+              <h4>Sunday</h4>
+              <p>Pizza</p>
+              <span className="meal-quantity">Medium</span>
+            </div>
+            <div className="meal-time">At 09:00pm</div>
+          </div>
+
+          <div className="meal-card">
+            <div className="meal-info">
+              <h4>Sunday</h4>
+              <p>Chips</p>
+              <span className="meal-quantity">1 Packet</span>
+            </div>
+            <div className="meal-time">At 07:30pm</div>
+          </div>
+        </div>
       </div>
 
-      {/* ===== Right Sidebar ===== */}
-      <div className="right-sidebar">
-        <div className="meals-consumed">
-          <h3>Meals Consumed</h3>
-          {/* "ADD" button */}
-          <button className="add-button">
-            <FaPlus /> ADD
-          </button>
-          <ul>
-            <li>
-              <span className="meal-day">Monday</span>
-              <span className="meal-detail">8 Pieces</span>
-              <span className="meal-time">At 08:00pm</span>
-            </li>
-            <li>
-              <span className="meal-day">Sunday</span>
-              <span className="meal-detail">Medium</span>
-              <span className="meal-time">At 07:00pm</span>
-            </li>
-            <li>
-              <span className="meal-day">Sunday</span>
-              <span className="meal-detail">Chips</span>
-              <span className="meal-time">At 05:00pm</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="explore-communities">
-          <button className="explore-button">
-            Explore Communities &rarr;
-          </button>
-        </div>
-      </div>
+      {/* QR Code Scanner Popup */}
+      <QRCodeScanner isOpen={qrOpen} onClose={() => setQrOpen(false)} />
     </div>
   );
 };

@@ -2,437 +2,502 @@
 
 /* Basic Reset & Fonts */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f8fa;
-    color: #333;
-  }
-  
-  /* Container Layout */
-  .dashboard-container {
-    display: flex;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  
-  /* ===== Left Sidebar ===== */
-  .sidebar {
-    width: 220px;
-    background-color: #ffffff;
-    border-right: 1px solid #ddd;
-    padding: 1rem;
-    transition: transform 0.3s ease;
-  }
-  
-  .sidebar-logo {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-    justify-content: center;
-  }
-  
-  .sidebar-logo .logo {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f8fa;
+  color: #333;
+}
+
+/* Container Layout */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Left Sidebar ===== */
+.sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.sidebar-logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.logo{
+    height: 120px;
     max-width: 100%;
-    height: auto;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-menu li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sidebar-menu li:hover {
+  color: #ff8c00;
+}
+
+.sidebar-menu li.active {
+  font-weight: bold;
+  color: #ff8c00;
+}
+
+/* On mobile, hide sidebar off-canvas by default */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
   }
-  
-  .sidebar-menu {
-    list-style: none;
+  .sidebar.open {
+    transform: translateX(0);
   }
-  
-  .sidebar-menu li {
-    padding: 0.5rem 0;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .sidebar-menu li:hover {
-    color: #ff8c00;
-  }
-  
-  .sidebar-menu li.active {
-    font-weight: bold;
-    color: #ff8c00;
-  }
-  
-  /* On mobile, hide sidebar off-canvas by default */
-  @media screen and (max-width: 768px) {
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      transform: translateX(-100%);
-      z-index: 1000;
-    }
-    .sidebar.open {
-      transform: translateX(0);
-    }
-  }
-  
-  /* ===== Main Content ===== */
-  .main-content {
-    flex: 1;
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Top Navbar */
-  .top-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .left-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  /* Hamburger button - hidden on desktop, visible on mobile */
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  flex: 1;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Navbar */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Hamburger button - hidden on desktop, visible on mobile */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
   .hamburger {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .hamburger {
-      display: block;
-    }
-  }
-  
-  .greeting h4 {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 0.25rem;
-  }
-  
-  .greeting h2 {
-    font-size: 1.5rem;
-  }
-  
-  .user-profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  /* ===== Banner Carousel ===== */
-  .banner {
-    position: relative;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
-  
-  .carousel {
-    position: relative;
-  }
-  
-  .banner-img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
     display: block;
   }
-  
-  /* Dot indicators for carousel */
-  .carousel-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-  }
-  
-  .carousel-dot {
-    width: 10px;
-    height: 10px;
-    background: #ddd;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .carousel-dot.active {
-    background: #ff8c00;
-  }
-  
-  /* ===== Macro Cards ===== */
+}
+
+.greeting h4 {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.greeting h2 {
+  font-size: 1.5rem;
+}
+
+/* QR Code Button */
+.qr-button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.qr-button:hover {
+  color: #ff8c00;
+}
+
+/* ===== Banner Carousel ===== */
+.banner {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.carousel {
+  position: relative;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dot indicators for carousel */
+.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  background: #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.carousel-dot.active {
+  background: #ff8c00;
+}
+
+/* ===== Macro Cards ===== */
+.macro-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.macro-card {
+  flex: 1;
+  min-width: 180px;
+  border-radius: 12px;
+  color: #fff;
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.macro-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Card details layout */
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-label {
+  font-size: 1.2rem;
+}
+
+.card-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Big icon aligned to the right */
+.card-icon {
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Gradients for each card */
+.macro-card.carbs {
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+.macro-card.protein {
+  background: linear-gradient(to right, #ff9f43, #ff5e62);
+}
+.macro-card.fats {
+  background: linear-gradient(to right, #c471f5, #fa71cd);
+}
+/* ===== Bottom Section: Nutrients + Monthly Progress ===== */
+.bottom-section {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.nutrients-consumed,
+.monthly-progress {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  padding: 1rem;
+}
+
+.nutrients-consumed {
+  flex: 1;
+}
+
+.nutrients-consumed h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.chart-wrapper {
+  height: 250px;
+}
+
+.monthly-progress {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.monthly-progress h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Radial progress circle */
+.progress-circle {
+  width: 100px;
+  height: 100px;
+  background: conic-gradient(#ff8c00 0% 80%, #ddd 80% 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.progress-circle span {
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+}
+
+/* ===== Meals Consumed Section ===== */
+.meals-consumed-container {
+  margin-top: 2rem;
+}
+
+.meals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.meals-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.add-meal-button {
+  background-color: #ff8c00;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.add-meal-button:hover {
+  background-color: #ff7a00;
+}
+
+/* Individual meal card style */
+.meal-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meal-info h4 {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.meal-info p {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.meal-quantity {
+  display: inline-block;
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.meal-time {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ===== Responsive Media Queries ===== */
+
+/* Medium screens (tablets, small laptops) */
+@media screen and (max-width: 992px) {
   .macro-cards {
-    display: flex;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    flex-direction: column;
     gap: 1rem;
-    margin-bottom: 1rem;
   }
-  
-  /* Common style for each macro card */
-  .macro-card {
-    flex: 1;
-    min-width: 180px; /* Ensures a minimum width before wrapping */
-    border-radius: 12px;
-    color: #fff;
-    padding: 1.5rem;
-    display: flex;
+  .bottom-section {
+    flex-direction: column;
+  }
+  .monthly-progress {
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+}
+
+/* Small screens (mobile) */
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .main-content {
+    order: 2;
+    padding: 1rem;
+    width: 100%;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  /* Adjust banner layout on mobile */
+  .banner {
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
   }
-  
-  .macro-card:hover {
-    transform: translateY(-3px);
+  .banner-img {
+    width: 100%;
   }
-  
-  /* Card top row: icon + label */
-  .card-content {
-    display: flex;
-    align-items: center;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .macro-icon {
-    margin-right: 0.5rem;
-    font-size: 1.4rem;
-  }
-  
-  /* Carbs card gradient (blue) */
-  .macro-card.carbs {
-    background: linear-gradient(to right, #00c6ff, #0072ff);
-  }
-  
-  /* Protein card gradient (orange) */
-  .macro-card.protein {
-    background: linear-gradient(to right, #ff9f43, #ff5e62);
-  }
-  
-  /* Fats card gradient (purple) */
-  .macro-card.fats {
-    background: linear-gradient(to right, #c471f5, #fa71cd);
-  }
-  
-  /* The grams text */
-  .macro-card p {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  /* ===== Bottom Section: Nutrients + Monthly Progress ===== */
   .bottom-section {
-    display: flex;
-    margin-top: 1rem;
-    gap: 1rem;
+    flex-direction: column;
   }
-  
-  .nutrients-consumed,
-  .monthly-progress {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    padding: 1rem;
-  }
-  
-  .nutrients-consumed {
-    flex: 1;
-  }
-  
-  .nutrients-consumed h3 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-  }
-  
   .chart-wrapper {
-    height: 250px;
+    height: 200px;
   }
-  
-  .monthly-progress {
-    max-width: 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .monthly-progress h3 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-  }
-  
-  /* Radial progress circle */
-  .progress-circle {
-    width: 100px;
-    height: 100px;
-    background: conic-gradient(#ff8c00 0% 80%, #ddd 80% 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .progress-circle span {
-    font-size: 1.2rem;
-    color: #fff;
-    text-shadow: 0 0 2px #000;
-  }
-  
-  /* ===== Right Sidebar ===== */
-  .right-sidebar {
-    width: 300px;
-    background-color: #ffffff;
-    border-left: 1px solid #ddd;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .meals-consumed {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    position: relative;
-  }
-  
-  .meals-consumed h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-  }
-  
-  /* "ADD" Button */
-  .add-button {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    background-color: #ff8c00;
-    color: #fff;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.2s ease;
-  }
-  
-  .add-button:hover {
-    background-color: #ff7a00;
-  }
-  
-  .meals-consumed ul {
-    list-style: none;
-    margin-top: 2.5rem;
-  }
-  
-  .meals-consumed li {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-  }
-  
-  .meal-day {
-    font-weight: bold;
-  }
-  
-  .meal-detail {
-    color: #ff8c00;
-    margin: 0.2rem 0;
-  }
-  
-  .meal-time {
-    color: #666;
-  }
-  
-  /* Explore Communities */
-  .explore-communities {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  .explore-button {
-    background-color: #ff8c00;
-    color: #fff;
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-  }
-  
-  .explore-button:hover {
-    background-color: #ff7a00;
-  }
-  
-  /* ===== Responsive Media Queries ===== */
-  
-  /* Medium screens (tablets, small laptops) */
-  @media screen and (max-width: 992px) {
-    .macro-cards {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .bottom-section {
-      flex-direction: column;
-    }
-    .monthly-progress {
-      margin-top: 1rem;
-      max-width: 100%;
-    }
-  }
-  
-  /* Small screens (mobile) */
-  @media screen and (max-width: 768px) {
-    .dashboard-container {
-      flex-direction: column;
-    }
-    .main-content {
-      order: 2;
-      padding: 1rem;
-      width: 100%;
-    }
-    .right-sidebar {
-      order: 3;
-      width: 100%;
-      border-left: none;
-      border-top: 1px solid #ddd;
-      padding: 1rem 0.5rem;
-    }
-    /* Adjust banner layout on mobile */
-    .banner {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .banner-img {
-      width: 100%;
-    }
-    .bottom-section {
-      flex-direction: column;
-    }
-    .chart-wrapper {
-      height: 200px;
-    }
-  }
-  
+}
+/* Popup Overlay */
+.qr-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Popup Content - covers at least 60% of the screen */
+.qr-popup-content {
+  background-color: #fff;
+  width: 80%;
+  height: 40%;
+  max-width: 700px;
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Close Button with transition and red on hover */
+.qr-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.qr-close-button:hover {
+  color: red;
+}
+
+/* Webcam container & view */
+.webcam-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-top: 25px;
+  margin-bottom: 1rem;
+}
+
+.webcam-view {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Rectangular capture button with rounded corners */
+.capture-button {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(to right, #ff8c00, #ff7a00);
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.capture-button:hover {
+  filter: brightness(1.1);
+}
+
+
