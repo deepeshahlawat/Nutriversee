@@ -1,0 +1,36 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure full-page scrolling works properly */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Add custom animation for navbar slideIn if needed beyond Tailwind config */
+@keyframes slideIn {
+  from {
+      transform: translateY(-100%);
+  }
+  to {
+      transform: translateY(0);
+  }
+}
+
+/* Add custom animation for reviews scrolling if needed beyond Tailwind config */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
