@@ -17,7 +17,7 @@ import {
 } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import './Dashboard.css';
-
+import {Link} from "react-router-dom";
 import banner1 from '../images/banner1.jpg';
 import banner2 from '../images/banner2.jpg';
 import banner3 from '../images/banner3.jpg';
@@ -223,7 +223,7 @@ const Dashboard = () => {
           <img src={logo} alt="Logo" className="logo" />
         </div>
         <ul className="sidebar-menu">
-          <li className="active">Community</li>
+          <Link to="/community"><li>Community</li></Link>
           <li>Leaderboards</li>
           <li>AI</li>
           <li>Education</li>

@@ -1,9 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../css/Communityy.css";
 import logo from "../../images/Background.png";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     // Set default posts only once
     setPosts([
@@ -28,18 +29,8 @@ const Community = () => {
     ]);
   }, []);
 
-  const [showCommentPopup, setShowCommentPopup] = useState(false);
-  const [currentPostId, setCurrentPostId] = useState(null);
-  const [commentText, setCommentText] = useState("");
-  const [postText, setPostText] = useState("");
-  const [attachedFile, setAttachedFile] = useState(null);
-  const [newPostText, setNewPostText] = useState("");
-  const [file, setFile] = useState(null);
   const [newCaption, setNewCaption] = useState("");
-
-  const handleFileAttach = (event) => {
-    setAttachedFile(event.target.files[0]);
-  };
+  const [file, setFile] = useState(null);
 
   const handlePost = () => {
     if (newCaption.trim() && file) {
@@ -59,95 +50,8 @@ const Community = () => {
     }
   };
 
-  const toggleLike = (postId) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, liked: !post.liked } : post
-      )
-    );
-  };
-
-  const openCommentPopup = (postId) => {
-    setCurrentPostId(postId);
-    setShowCommentPopup(true);
-  };
-
-  const closeCommentPopup = () => {
-    setShowCommentPopup(false);
-  };
-
-  const submitComment = () => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === currentPostId
-          ? { ...post, comments: [...post.comments, commentText] }
-          : post
-      )
-    );
-    setCommentText("");
-    closeCommentPopup();
-  };
-
-  const sharePost = (post) => {
-    if (navigator.share) {
-      navigator.share({
-        title: post.author,
-        text: post.caption,
-        url: window.location.href,
-      });
-    } else {
-      alert("Sharing not supported on this device.");
-    }
-  };
-
   return (
     <div className="community-container">
-      <div className="posts-section">
-        {posts.map((post) => (
-          <div key={post.id} className="post-container">
-            <div className="post-header">
-              <span className="post-author">{post.author}</span>
-              <span className="post-location">{post.location}</span>
-            </div>
-            <img src={post.image} alt="Post" className="post-image" />
-            <p className="post-caption">{post.caption}</p>
-            <div className="post-actions">
-              <button
-                className={`like-button ${post.liked ? "liked" : ""}`}
-                onClick={() => toggleLike(post.id)}
-              >
-                ❤️ Like
-              </button>
-              <button className="comment-button" onClick={() => openCommentPopup(post.id)}>
-                💬 Comment
-              </button>
-              <button className="share-button" onClick={() => sharePost(post)}>
-                🔗 Share
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Comment Popup */}
-      {showCommentPopup && (
-        <div className="comment-popup">
-          <div className="popup-content">
-            <h3>Add a Comment</h3>
-            <textarea
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write your comment..."
-            />
-            <div className="popup-buttons">
-              <button onClick={submitComment}>Post</button>
-              <button onClick={closeCommentPopup}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Permanent "What do you think?" Input Bar */}
       <div className="posts-section">
         {posts.map((post) => (
           <div key={post.id} className="post-container">
