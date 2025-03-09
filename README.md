@@ -21,6 +21,19 @@ Nutriverse aims to revolutionize health management by integrating wellness into 
 ✅ **Backend Ready** - Extracted data can be sent to our backend for further processing.  
 ✅ **Cross-Platform Support** - Works on modern browsers.
 
+## User Interface
+
+Landing Page:
+
+![image](https://github.com/user-attachments/assets/cdc846ef-4bb6-4cd1-94b3-20190c0f82a7)
+
+
+
+Login:
+
+![image](https://github.com/user-attachments/assets/bad88f41-c5e5-49b6-a481-bf2bc35338ae)
+
+
 
 ## 🛠 Technologies Used
 
