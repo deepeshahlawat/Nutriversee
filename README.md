@@ -25,17 +25,30 @@ Nutriverse aims to revolutionize health management by integrating wellness into 
 
 Landing Page:
 
-![image](https://github.com/user-attachments/assets/cdc846ef-4bb6-4cd1-94b3-20190c0f82a7)
+
+
+https://github.com/user-attachments/assets/03b743ef-52d5-452f-b661-a7680079b4b1
 
 
 
-Login:
-
-![image](https://github.com/user-attachments/assets/bad88f41-c5e5-49b6-a481-bf2bc35338ae)
 
 
 
-## 🛠 Technologies Used
+Food Scanner:
+
+
+
+
+https://github.com/user-attachments/assets/0b2fbfb0-005e-4ff3-8b5a-66c002d438d1
+
+
+
+
+
+Community:
+
+![image](https://github.com/user-attachments/assets/c1650903-04fd-456d-bf66-e59a41e316ff)
+
 
 
 
@@ -44,6 +57,8 @@ Login:
 📌 Maintainer: Deepesh Ahlawat, Arpit Chaudhary
 
 📌 GitHub: [@deepeshahlawat](https://github.com/deepeshahlawat)  
+     
+  (https://github.com/aaartemis5)
 
 ---
 
