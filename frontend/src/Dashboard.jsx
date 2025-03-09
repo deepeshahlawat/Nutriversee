@@ -10,20 +10,20 @@ import {
   Legend
 } from 'chart.js';
 import {
-  FaPlus,
   FaBars,
   FaQrcode,
   FaDrumstickBite,
   FaFireAlt
 } from 'react-icons/fa';
-import { IoFastFoodOutline } from "react-icons/io5";
-import QRCodeScanner from './QRCodeScanner';
+import { IoFastFoodOutline } from 'react-icons/io5';
 import './Dashboard.css';
-import banner1 from "../images/banner1.jpg";
-import banner2 from "../images/banner2.jpg";
-import banner3 from "../images/banner3.jpg";
-import logo from "../images/NutriverseLogo.png";
 
+import banner1 from '../images/banner1.jpg';
+import banner2 from '../images/banner2.jpg';
+import banner3 from '../images/banner3.jpg';
+import logo from '../images/NutriverseLogo.png';
+
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -34,7 +34,7 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  // Sidebar toggle state
+  // Sidebar toggle
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
@@ -43,7 +43,7 @@ const Dashboard = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Close sidebar on mobile when clicking outside
+  // Close sidebar on mobile if clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -61,7 +61,7 @@ const Dashboard = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSidebarOpen]);
 
-  // Carousel State
+  // Carousel
   const carouselImages = [banner1, banner2, banner3];
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -74,7 +74,7 @@ const Dashboard = () => {
     return () => clearInterval(slideInterval);
   }, [carouselImages.length]);
 
-  // Chart Data
+  // Chart data
   const chartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -100,12 +100,8 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'bottom'
-      },
-      title: {
-        display: false
-      }
+      legend: { position: 'bottom' },
+      title: { display: false }
     },
     scales: {
       y: {
@@ -115,19 +111,116 @@ const Dashboard = () => {
     }
   };
 
-  // QR Code Popup State (initially open)
+  // Some other popup states (if used)
   const [qrOpen, setQrOpen] = useState(true);
+
+  // ===== SCANNER POPUP STATE =====
+  const [scannerOpen, setScannerOpen] = useState(true);
+  const [scanResult, setScanResult] = useState(null);
+  const scannerVideoRef = useRef(null);
+  const scannerCanvasRef = useRef(null);
+
+  // Request camera on scanner open
+  useEffect(() => {
+    if (scannerOpen) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          if (scannerVideoRef.current) {
+            scannerVideoRef.current.srcObject = stream;
+          }
+        })
+        .catch(err => console.error('Error accessing camera:', err));
+    }
+  }, [scannerOpen]);
+
+  // Capture image & call backend
+  const captureAndScan = async () => {
+    const canvas = scannerCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(scannerVideoRef.current, 0, 0, canvas.width, canvas.height);
+    const base64Image = canvas.toDataURL('image/jpeg');
+
+    try {
+      const response = await fetch('http://localhost:3000/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image })
+      });
+      const data = await response.json();
+      setScanResult(data);
+      console.log('Full LogMeal response:', data);
+    } catch (error) {
+      console.error('Error scanning image:', error);
+    }
+  };
+
+  // Close scanner popup
+  const closeScanner = () => {
+    setScannerOpen(false);
+  };
+
+  // ===== PARSE SHORT RESULT =====
+  let topDish = 'Unknown Dish';
+  let calories = 0;
+  let carbs = 0;
+  let protein = 0;
+  let fat = 0;
+
+  if (scanResult) {
+    // Recognition: top recognized dish
+    topDish =
+      scanResult.recognition?.recognition_results?.[0]?.name || 'Unknown Dish';
+
+    // Nutritional info
+    calories = scanResult.nutrition?.nutritional_info?.calories || 0;
+    carbs = scanResult.nutrition?.nutritional_info?.totalNutrients?.CHOCDF?.quantity || 0;
+    protein = scanResult.nutrition?.nutritional_info?.totalNutrients?.PROCNT?.quantity || 0;
+    fat = scanResult.nutrition?.nutritional_info?.totalNutrients?.FAT?.quantity || 0;
+  }
 
   return (
     <div className="dashboard-container">
-      {/* Left Sidebar */}
+      {/* SCANNER MODAL */}
+      {scannerOpen && (
+        <div className="scanner-modal">
+          <div className="scanner-content">
+            <h2>Food Scanner</h2>
+            <video
+              ref={scannerVideoRef}
+              width="320"
+              height="240"
+              autoPlay
+              className="scanner-video"
+            />
+            <canvas
+              ref={scannerCanvasRef}
+              width="320"
+              height="240"
+              style={{ display: 'none' }}
+            />
+            <div className="scanner-buttons">
+              <button onClick={captureAndScan}>Scan</button>
+              <button onClick={closeScanner}>Close</button>
+            </div>
+
+            {/* Short Summary of the recognized dish & nutrition */}
+            {scanResult && (
+              <div className="scan-result">
+                <h3>Best Guess: {topDish}</h3>
+                <p>Calories: {calories}</p>
+                <p>Carbs: {carbs} g</p>
+                <p>Protein: {protein} g</p>
+                <p>Fat: {fat} g</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ===== LEFT SIDEBAR ===== */}
       <div ref={sidebarRef} className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          <img
-            src={logo}
-            alt="Logo"
-            className="logo"
-          />
+          <img src={logo} alt="Logo" className="logo" />
         </div>
         <ul className="sidebar-menu">
           <li className="active">Community</li>
@@ -138,26 +231,28 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      {/* Main Content */}
+      {/* ===== MAIN CONTENT ===== */}
       <div className="main-content">
         <div className="top-navbar">
           <div className="left-section">
-            <button ref={hamburgerRef} className="hamburger" onClick={handleToggleSidebar}>
+            <button
+              ref={hamburgerRef}
+              className="hamburger"
+              onClick={handleToggleSidebar}
+            >
               <FaBars />
             </button>
             <div className="greeting">
-              <h4>
-                Good Evening <span role="img" aria-label="party">🎉</span>
-              </h4>
+              <h4>Good Evening <span role="img" aria-label="party">🎉</span></h4>
               <h2>Welcome Back</h2>
             </div>
           </div>
-
           <button className="qr-button" onClick={() => setQrOpen(true)}>
             <FaQrcode />
           </button>
         </div>
 
+        {/* Banner / Carousel */}
         <div className="banner">
           <div className="carousel">
             <img
@@ -177,7 +272,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Macro Cards with Icons Aligned to the Right */}
+        {/* Macro Cards */}
         <div className="macro-cards">
           <div className="macro-card carbs">
             <div className="card-details">
@@ -214,6 +309,7 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Bottom Section: Chart & Monthly Progress */}
         <div className="bottom-section">
           <div className="nutrients-consumed">
             <h3>Nutrients Consumed</h3>
@@ -221,24 +317,21 @@ const Dashboard = () => {
               <Bar data={chartData} options={chartOptions} />
             </div>
           </div>
-
           <div className="monthly-progress">
             <h3>Monthly Progress</h3>
             <div className="progress-circle">
               <span>80%</span>
             </div>
-            <p>
-              You have achieved <strong>80%</strong> of your daily nutrition goals
-            </p>
+            <p>You have achieved <strong>80%</strong> of your daily nutrition goals</p>
           </div>
         </div>
 
+        {/* Meals Consumed */}
         <div className="meals-consumed-container">
           <div className="meals-header">
             <h3>Meals Consumed</h3>
             <button className="add-meal-button">+ ADD</button>
           </div>
-
           <div className="meal-card">
             <div className="meal-info">
               <h4>Monday</h4>
@@ -247,7 +340,6 @@ const Dashboard = () => {
             </div>
             <div className="meal-time">At 08:00am</div>
           </div>
-
           <div className="meal-card">
             <div className="meal-info">
               <h4>Sunday</h4>
@@ -256,7 +348,6 @@ const Dashboard = () => {
             </div>
             <div className="meal-time">At 09:00pm</div>
           </div>
-
           <div className="meal-card">
             <div className="meal-info">
               <h4>Sunday</h4>
@@ -267,9 +358,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* QR Code Scanner Popup */}
-      <QRCodeScanner isOpen={qrOpen} onClose={() => setQrOpen(false)} />
     </div>
   );
 };

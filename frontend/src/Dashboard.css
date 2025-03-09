@@ -41,9 +41,9 @@ body {
   height: auto;
 }
 
-.logo{
-    height: 120px;
-    max-width: 100%;
+.logo {
+  height: 120px;
+  max-width: 100%;
 }
 
 .sidebar-menu {
@@ -244,6 +244,7 @@ body {
 .macro-card.fats {
   background: linear-gradient(to right, #c471f5, #fa71cd);
 }
+
 /* ===== Bottom Section: Nutrients + Monthly Progress ===== */
 .bottom-section {
   display: flex;
@@ -422,7 +423,8 @@ body {
     height: 200px;
   }
 }
-/* Popup Overlay */
+
+/* ===== Optional QR Popup Classes (if used) ===== */
 .qr-popup-overlay {
   position: fixed;
   top: 0;
@@ -436,7 +438,6 @@ body {
   z-index: 2000;
 }
 
-/* Popup Content - covers at least 60% of the screen */
 .qr-popup-content {
   background-color: #fff;
   width: 80%;
@@ -450,7 +451,6 @@ body {
   align-items: center;
 }
 
-/* Close Button with transition and red on hover */
 .qr-close-button {
   position: absolute;
   top: 1rem;
@@ -467,7 +467,6 @@ body {
   color: red;
 }
 
-/* Webcam container & view */
 .webcam-container {
   width: 100%;
   overflow: hidden;
@@ -482,7 +481,6 @@ body {
   object-fit: cover;
 }
 
-/* Rectangular capture button with rounded corners */
 .capture-button {
   width: 120px;
   height: 40px;
@@ -500,4 +498,60 @@ body {
   filter: brightness(1.1);
 }
 
+/* ===== SCANNER MODAL (centered overlay) ===== */
+.scanner-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* ensure it's above everything */
+}
 
+.scanner-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 350px;
+  max-width: 90%;
+}
+
+.scanner-video {
+  width: 320px;
+  height: 240px;
+  background-color: #000;
+}
+
+.scanner-buttons {
+  margin-top: 10px;
+}
+
+.scanner-buttons button {
+  margin: 5px;
+  padding: 8px 16px;
+  border: none;
+  background-color: #20b2aa;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.scanner-buttons button:hover {
+  background-color: #1e8c89;
+}
+
+.scan-result {
+  text-align: left;
+  margin-top: 10px;
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+}

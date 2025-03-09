@@ -1,13 +1,14 @@
-import { useState } from 'react'
-import './App.css'
-import Homepage from './Dashboard'
+// File: frontend/src/App.jsx
+import React from 'react';
+import Dashboard from './Dashboard.jsx';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <Homepage/>
-  )
+    <div className="App">
+      <Dashboard />
+    </div>
+  );
 }
 
-export default App
+export default App;
